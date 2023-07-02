@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Expense_Tracker.Models.Trasaction>
+
+@{
+    ViewData["PageTitle"] = "Transactions";
+    ViewData["PageActionText"] = "+ New Transaction";
+    ViewData["PageActionUrl"] = "/Trasaction/AddOrEdit";
+}
+
+
+<div class="row">
+    <div class="col-md-7">
+        <ejs-grid id="trasactions" dataSource="@Model" gridLines="None"
+                  allowSorting="true" allowPaging="true">
+            <e-grid-pagesettings pageSize="10"></e-grid-pagesettings>
+            <e-grid-columns>
+                <e-grid-column headerText="Category" field="CategoryTitleWithIcon"></e-grid-column>
+                <e-grid-column headerText="Date" field="Date" width="110px"
+                type="date" format="MMM-dd-yy" textAlign="Left"></e-grid-column>
+                <e-grid-column headerText="Amount" field="FormattedAmount" textAlign="Right" width="110px"></e-grid-column>
+   <e-grid-column headerText="Actions" template="#actionColumnTemplate" width="100px"></e-grid-column>             </e-grid-columns>
+        </ejs-grid>
+    </div>
+    <div class="col-md-5">
+        <div class="widget h-100 d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-money-bill-transfer fa-2xl"></i>
+        </div>
+    </div>
+</div>
+
+
+<script id="actionColumnTemplate" type="text/x-template">
+    <div class="d-flex flex-row justify-content-start">
+      <a class="btn btn-sm no-a-decoration" href="/Trasaction/AddOrEdit/${TrasactionId}">
+             <i class="fa-solid fa-pen fa-lg"> </i>
+      </a>
+      <form action="/Trasaction/Delete/${TrasactionId}" method="post">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-sm btn-link no-a-decoration"
+        onclick="return confirm(&quot;Are You Sure To Delete This Record?&quot;)">
+                  <i class="fa-solid fa-trash-can fa-lg text-danger"></i>
+    </button>
+      </form>
+
+    </div>
+
+</script>
